@@ -1,0 +1,13 @@
+{
+  "name": "number-flip",
+  "version": "1.0.0",
+  "description": "Change number with flipping animation",
+  "main": "flip.js",
+  "repository": "https://github.com/gaoryrt/flip.git",
+  "author": "gaoryrt",
+  "license": "MIT",
+  "dependencies": {
+    "emotion": "^8.0.12",
+    "html-text-generator": "^1.1.2"
+  }
+}

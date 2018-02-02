@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>demo</title>
+</head>
+<body>
+  <div class="flip"></div>
+  <div class="num"></div>
+  <button id="shuffle" type="button">click to shuffle</button>
+  <tt><pre>
+    const el = new Flip({
+      node: $('.flip'),
+      from: 9527,
+      to: 42,
+      duration: 2000,
+      delay: 2000
+    })
+
+    $('#shuffle').addEventListener('click', () => {
+      const num = (Math.random() * 10000).toFixed(0)
+      $('.num').innerText = num
+      el.flipTo(num)
+    })
+  </pre></tt>
+</body>
+</html>
