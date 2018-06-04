@@ -11,7 +11,7 @@ $ npm install --save number-flip
 # usage
 ## import `number-flip`
 ```
-import Flip from '../number-flip'
+import Flip from 'number-flip'
 ```
 
 ## use it!
@@ -53,6 +53,11 @@ new Flip({
   duration: 2000
 })
 ```
+
+# TODO
+- [ ] css3 animation - instead of a picture
+- [ ] flip with FLIP
+- [ ] browser compatibility list
 
 # license
 MIT
