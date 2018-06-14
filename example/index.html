@@ -8,23 +8,20 @@
   <title>demo</title>
 </head>
 <body>
-  <div class="flip"></div>
-  <div class="num"></div>
-  <button id="shuffle" type="button">click to shuffle</button>
-  <tt><pre>
-    const el = new Flip({
-      node: $('.flip'),
-      from: 9527,
-      to: 42,
-      duration: 2000,
-      delay: 2000
-    })
-
-    $('#shuffle').addEventListener('click', () => {
-      const num = (Math.random() * 10000).toFixed(0)
-      $('.num').innerText = num
-      el.flipTo(num)
-    })
-  </pre></tt>
+  <div class="frame">
+    <div class="ctnr">
+      <div class="col">0</div>
+      <div class="col">1</div>
+      <div class="col">2</div>
+      <div class="col">3</div>
+      <div class="col">4</div>
+      <div class="col">5</div>
+      <div class="col">6</div>
+      <div class="col">7</div>
+      <div class="col">8</div>
+      <div class="col">9</div>
+      <div class="col">0</div>
+    </div>
+  </div>
 </body>
 </html>

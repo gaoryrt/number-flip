@@ -8,6 +8,8 @@
   "license": "MIT",
   "dependencies": {
     "emotion": "^8.0.12",
-    "html-text-generator": "^1.1.2"
+    "gelerator": "^1.1.50",
+    "html-text-generator": "^1.1.2",
+    "vue-style-loader": "^4.1.0"
   }
 }
