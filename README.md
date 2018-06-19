@@ -3,6 +3,8 @@ Change number with flipping animation
 
 ![](./demo.gif)
 
+![](./demo1.gif)
+
 # install
 ```
 $ npm install --save number-flip
