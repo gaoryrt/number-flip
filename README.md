@@ -50,7 +50,23 @@ new Flip({
   node: $('.flip'),
   from: 9527,
   to: 42,
-  duration: 2000
+  duration: 2
+})
+```
+
+### more complex usage
+```
+new Flip({
+  node: $('.flip'),
+  from: 73,
+  to: 25,
+  duration: 2,
+  delay: 1,
+  easeFn: function(pos) {
+    if ((pos/=0.5) < 1) return 0.5*Math.pow(pos,3);
+    return 0.5 * (Math.pow((pos-2),3) + 2);
+  },
+  systemArr: ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
 })
 ```
 

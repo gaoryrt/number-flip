@@ -32,17 +32,22 @@ module.exports = class flip {
     this.to = to || 0
     this.node = node
     this._initHTML(maxLenNum(this.from, this.to))
+    if (!to) return
     if (delay) setTimeout(() => {this.flipTo({to: this.to})}, delay * 1000)
     else this.flipTo({to: this.to})
   }
 
   _initHTML(digits) {
     this.node.classList.add('number-flip')
+    this.node.style.position = 'relative'
+    this.node.style.overflow = 'hidden'
     ;[...Array(digits).keys()].forEach(i => {
       const ctnr = g(`ctnr ctnr${i}`)(
         ...this.systemArr.map(i => g('digit')(i)),
         g('digit')(this.systemArr[0])
       )
+      ctnr.style.position = 'relative'
+      ctnr.style.display = 'inline-block'
       this.ctnrArr.unshift(ctnr)
       this.node.appendChild(ctnr)
       this.beforeArr.push(0)

@@ -21,13 +21,3 @@ html {
   padding: 0;
   box-sizing: border-box;
 }
-
-.number-flip {
-  position: relative;
-  overflow: hidden;
-}
-
-.ctnr {
-  position: relative;
-  display: inline-block;
-}
