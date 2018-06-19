@@ -58,6 +58,7 @@ new Flip({
 - [ ] css3 animation - instead of a picture
 - [ ] flip with FLIP
 - [ ] browser compatibility list
+- [ ] thresh maybe
 
 # license
 MIT

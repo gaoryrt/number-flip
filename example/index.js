@@ -3,7 +3,14 @@ import Flip from '../flip'
 
 const el = new Flip({
   node: document.querySelector('.app'),
-  from: 377
+  from: 1000,
+  duration: .5
 })
 
-el._change(612)
+let num = 1001
+setInterval(() => {
+  // const num = ~~(Math.random() * 9999)
+  num += 3
+  el.flipTo(num)
+  console.log(num)
+}, 1000)
