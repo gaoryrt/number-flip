@@ -3,7 +3,7 @@ Change number with flipping animation
 
 ![](./demo.gif)
 
-![](./demo1.gif)
+![](./demo2.gif)
 
 # install
 ```
