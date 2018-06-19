@@ -41,7 +41,7 @@ const el = new Flip({
   from: 9527
 })
 
-el.flipTo(42)
+el.flipTo({to: 42})
 ```
 
 ### costumize animate duration:
@@ -55,8 +55,7 @@ new Flip({
 ```
 
 # TODO
-- [ ] css3 animation - instead of a picture
-- [ ] flip with FLIP
+- [x] flip with FLIP
 - [ ] browser compatibility list
 - [ ] thresh maybe
 
