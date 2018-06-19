@@ -15,5 +15,6 @@ const flip = new Flip({
 
 $('button').onclick = () => {
   const num = ~~(Math.random() * 999)
+  $('.num').innerText = num
   flip.flipTo({to: num, direct: true})
 }
