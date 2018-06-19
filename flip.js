@@ -7,7 +7,7 @@ const num2PadNumArr = (num, len) => {
     padLeftStr('0' + rawStr, lenNum) :
     rawStr)
   const str2NumArr = rawStr => rawStr.split('').map(Number)
-  return str2NumArr(padLeftStr(num.toString(), len))
+  return str2NumArr(padLeftStr(num.toString(), len)).reverse()
 }
 
 module.exports = class flip {
@@ -24,15 +24,16 @@ module.exports = class flip {
     this.afterArr = []
     this.ctnrArr = []
     this.duration = (duration || 1) * 1000
-    this.systemArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    this.systemArr = systemArr || ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     this.easeFn = easeFn || (pos => (pos /= .5) < 1
                               ? .5 * Math.pow(pos, 3)
                               : .5 * (Math.pow((pos - 2), 3) + 2))
     this.from = from || 0
     this.to = to || 0
-    this.delay = delay
     this.node = node
     this._initHTML(maxLenNum(this.from, this.to))
+    if (delay) setTimeout(() => {this.flipTo({to: this.to})}, delay * 1000)
+    else this.flipTo({to: this.to})
   }
 
   _initHTML(digits) {
@@ -62,31 +63,37 @@ module.exports = class flip {
     this.ctnrArr[digit].style.transform = `translateY(${- modNum * this.height}px)`
   }
 
-  flipTo(num, {direct} = {}) {
+  flipTo({
+    to,
+    duration,
+    easeFn,
+    direct
+  }) {
     const len = this.ctnrArr.length
-    this.beforeArr = num2PadNumArr(this.from, len).reverse()
-    this.afterArr = num2PadNumArr(num, len).reverse()
+    this.beforeArr = num2PadNumArr(this.from, len)
+    this.afterArr = num2PadNumArr(to, len)
     const draw = per => {
       let temp = 0
       for (let d = this.ctnrArr.length - 1; d >= 0; d -= 1) {
         let alter = this.afterArr[d] - this.beforeArr[d]
         temp += alter
+        const fn = easeFn || this.easeFn
         this._draw({
           digit: d,
-          per: this.easeFn(per),
+          per: fn(per),
           alter: direct ? alter : temp
         })
         temp *= 10
       }
     }
     const start = performance.now()
-    const duration = this.duration
+    const dur = duration || this.duration
     requestAnimationFrame(tick = now => {
       let elapsed = now - start
-      draw(elapsed / duration)
-      if (elapsed < duration) requestAnimationFrame(tick)
+      draw(elapsed / dur)
+      if (elapsed < dur) requestAnimationFrame(tick)
       else {
-        this.from = num
+        this.from = to
         draw(1)
       }
     })

@@ -11,6 +11,5 @@ let num = 1001
 setInterval(() => {
   // const num = ~~(Math.random() * 9999)
   num += 3
-  el.flipTo(num)
-  console.log(num)
+  el.flipTo({to: num})
 }, 1000)
