@@ -32,7 +32,7 @@ new Flip({
   node: $('.flip'),
   from: 9527,
   to: 42,
-  delay: 1000
+  delay: 1 // second
 })
 ```
 
@@ -49,17 +49,17 @@ el.flipTo({to: 42})
 ### costumize animate duration:
 ```
 new Flip({
-  node: $('.flip'),
+  node: document.querySelector('.flip'),
   from: 9527,
   to: 42,
-  duration: 2
+  duration: 2 // second
 })
 ```
 
 ### more complex usage
 ```
 new Flip({
-  node: $('.flip'),
+  node: document.querySelector('.flip'),
   from: 73,
   to: 25,
   duration: 2,
@@ -67,15 +67,15 @@ new Flip({
   easeFn: function(pos) {
     if ((pos/=0.5) < 1) return 0.5*Math.pow(pos,3);
     return 0.5 * (Math.pow((pos-2),3) + 2);
-  },
+  }, // for more easing function, see https://github.com/danro/easing-js/blob/master/easing.js
   systemArr: ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
 })
 ```
 
 # TODO
 - [x] flip with FLIP
+- [ ] syntax
 - [ ] browser compatibility list
-- [ ] thresh maybe
 
 # license
 MIT
