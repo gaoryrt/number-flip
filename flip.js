@@ -93,7 +93,7 @@ module.exports = class flip {
     }
     const start = performance.now()
     const dur = duration || this.duration
-    requestAnimationFrame(tick = now => {
+    const tick = now => {
       let elapsed = now - start
       draw(elapsed / dur)
       if (elapsed < dur) requestAnimationFrame(tick)
@@ -101,6 +101,7 @@ module.exports = class flip {
         this.from = to
         draw(1)
       }
-    })
+    }
+    requestAnimationFrame(tick)
   }
 }
