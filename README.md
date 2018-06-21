@@ -18,7 +18,7 @@ import Flip from 'number-flip'
 
 ## use it!
 ### create one and make it flip:
-```
+```js
 new Flip({
   node: $('.flip'),
   from: 9527,
@@ -27,7 +27,7 @@ new Flip({
 ```
 
 ### flip one with delay:
-```
+```js
 new Flip({
   node: $('.flip'),
   from: 9527,
@@ -37,7 +37,7 @@ new Flip({
 ```
 
 ### create one and flip it later:
-```
+```js
 const el = new Flip({
   node: $('.flip'),
   from: 9527
@@ -47,7 +47,7 @@ el.flipTo({to: 42})
 ```
 
 ### costumize animate duration:
-```
+```js
 new Flip({
   node: document.querySelector('.flip'),
   from: 9527,
@@ -57,7 +57,7 @@ new Flip({
 ```
 
 ### more complex usage
-```
+```js
 new Flip({
   node: document.querySelector('.flip'),
   from: 73,
@@ -67,7 +67,8 @@ new Flip({
   easeFn: function(pos) {
     if ((pos/=0.5) < 1) return 0.5*Math.pow(pos,3);
     return 0.5 * (Math.pow((pos-2),3) + 2);
-  }, // for more easing function, see https://github.com/danro/easing-js/blob/master/easing.js
+  },
+  // for more easing function, see https://github.com/danro/easing-js/blob/master/easing.js
   systemArr: ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
 })
 ```
