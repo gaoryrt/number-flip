@@ -92,7 +92,7 @@ The returned Flip instance has a function called `flipTo`.
 - `to`: The number that animation rolls to. `Optional` if you want to start manually. Expected a positive integer.
 - `duration` `optional`: The animation duration in seconds. If not specified, `duration` defaults to 1 second.
 - `delay` `optional`: The delay of animation in seconds. If not specified, there's no `delay`.
-- `easeFn` `optional`: A easing function to be executed. If not specified, `easeFn` defaults (easeInOutCubic)[https://github.com/danro/easing-js/blob/4f5e7edbde7f7200a1baf08e357377896c0d207e/easing.js#L39-L42].
+- `easeFn` `optional`: A easing function to be executed. If not specified, `easeFn` defaults [easeInOutCubic](https://github.com/danro/easing-js/blob/4f5e7edbde7f7200a1baf08e357377896c0d207e/easing.js#L39-L42).
 - `systemArr` `optional`: An array lengthed 10, representing the content of each decimal rolling system. If not specified, `systemArr` defaults to `[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]`.
 - `direct` `optional`: A boolean representing if the number would rolling directly or one by one. For example, from 0 to 99, the ones place would pass 9 digits if is direct. Or if is not directly, would pass 99 digits, 9 rounds for each of the tens place. If not specified, `direct` defaults `true`.
 
