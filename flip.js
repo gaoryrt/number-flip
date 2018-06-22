@@ -3,9 +3,9 @@ const { g } = require('gelerator')
 const maxLenNum = (aNum, bNum) => (aNum > bNum ? aNum : bNum).toString().length
 
 const num2PadNumArr = (num, len) => {
-  const padLeftStr = (rawStr, lenNum) => (rawStr.length < lenNum ?
-    padLeftStr('0' + rawStr, lenNum) :
-    rawStr)
+  const padLeftStr = (rawStr, lenNum) => (rawStr.length < lenNum
+    ? padLeftStr('0' + rawStr, lenNum)
+    : rawStr)
   const str2NumArr = rawStr => rawStr.split('').map(Number)
   return str2NumArr(padLeftStr(num.toString(), len)).reverse()
 }
@@ -13,28 +13,30 @@ const num2PadNumArr = (num, len) => {
 module.exports = class flip {
   constructor({
     node,
-    from,
+    from = 0,
     to,
-    duration,
+    duration = 1,
     delay,
-    easeFn,
-    systemArr
+    easeFn = (pos => (pos /= .5) < 1
+                ? .5 * Math.pow(pos, 3)
+                : .5 * (Math.pow((pos - 2), 3) + 2)),
+    systemArr = [...Array(10).keys()],
+    direct = true
   }) {
     this.beforeArr = []
     this.afterArr = []
     this.ctnrArr = []
-    this.duration = (duration || 1) * 1000
-    this.systemArr = systemArr || ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    this.easeFn = easeFn || (pos => (pos /= .5) < 1
-                              ? .5 * Math.pow(pos, 3)
-                              : .5 * (Math.pow((pos - 2), 3) + 2))
-    this.from = from || 0
+    this.duration = duration * 1000
+    this.systemArr = systemArr
+    this.easeFn = easeFn
+    this.from = from
     this.to = to || 0
     this.node = node
+    this.direct = direct
     this._initHTML(maxLenNum(this.from, this.to))
-    if (!to) return
-    if (delay) setTimeout(() => {this.flipTo({to: this.to})}, delay * 1000)
-    else this.flipTo({to: this.to})
+    if (to === undefined) return
+    if (delay) setTimeout(() => this.flipTo({to: this.to, direct}), delay * 1000)
+    else this.flipTo({to: this.to, direct})
   }
 
   _initHTML(digits) {
@@ -65,14 +67,16 @@ module.exports = class flip {
   _draw({per, alter, digit}) {
     const from = this.beforeArr[digit]
     const modNum = ((per * alter + from) % 10 + 10) % 10
-    this.ctnrArr[digit].style.transform = `translateY(${- modNum * this.height}px)`
+    const translateY = `translateY(${- modNum * this.height}px)`
+    this.ctnrArr[digit].style.webkitTransform = translateY
+    this.ctnrArr[digit].style.transform = translateY
   }
 
   flipTo({
     to,
     duration,
     easeFn,
-    direct
+    direct = true
   }) {
     const len = this.ctnrArr.length
     this.beforeArr = num2PadNumArr(this.from, len)
