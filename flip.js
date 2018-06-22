@@ -15,7 +15,7 @@ module.exports = class flip {
     node,
     from = 0,
     to,
-    duration = 1,
+    duration = .5,
     delay,
     easeFn = (pos => (pos /= .5) < 1
                 ? .5 * Math.pow(pos, 3)

@@ -90,7 +90,7 @@ The returned Flip instance has a function called `flipTo`.
 - `node`: An `Element` object representing the animation container. Make sure this element is already existed in the DOM when you `new` the instance.
 - `from`: The number that animation starts from. `Optional` if you want to flip with 0. Expected a positive integer.
 - `to`: The number that animation rolls to. `Optional` if you want to start manually. Expected a positive integer.
-- `duration` `optional`: The animation duration in seconds. If not specified, `duration` defaults to 1 second.
+- `duration` `optional`: The animation duration in seconds. If not specified, `duration` defaults to 0.5 second.
 - `delay` `optional`: The delay of animation in seconds. If not specified, there's no `delay`.
 - `easeFn` `optional`: A easing function to be executed. If not specified, `easeFn` defaults [easeInOutCubic](https://github.com/danro/easing-js/blob/4f5e7edbde7f7200a1baf08e357377896c0d207e/easing.js#L39-L42).
 - `systemArr` `optional`: An array lengthed 10, representing the content of each decimal rolling system. If not specified, `systemArr` defaults to `[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]`.
