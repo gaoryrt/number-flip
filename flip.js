@@ -96,7 +96,7 @@ module.exports = class flip {
       }
     }
     const start = performance.now()
-    const dur = duration || this.duration
+    const dur = (duration * 1000) || this.duration
     const tick = now => {
       let elapsed = now - start
       draw(elapsed / dur)
