@@ -5,6 +5,8 @@ Change number with flipping animation
 
 ![](./demo2.gif)
 
+[demo on codepen](https://codepen.io/gaoryrt/pen/oyyMBx)
+
 # install
 ```
 $ npm install --save number-flip
