@@ -10,9 +10,9 @@
     "gelerator": "^1.1.50"
   },
   "devDependencies": {
-    "bili": "^3.1.2"
+    "poi": "^10.2.9"
   },
   "scripts": {
-    "build": "bili number-flip.js --format umd-min,cjs"
+    "build": "poi build number-flip.js --format umd --filename.js number-flip.min.js"
   }
 }

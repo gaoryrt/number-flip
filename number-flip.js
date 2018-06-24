@@ -1,4 +1,4 @@
-const { g } = require('gelerator')
+import { g } from 'gelerator'
 
 const maxLenNum = (aNum, bNum) => (aNum > bNum ? aNum : bNum).toString().length
 
