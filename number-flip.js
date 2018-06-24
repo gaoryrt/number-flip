@@ -10,7 +10,7 @@ const num2PadNumArr = (num, len) => {
   return str2NumArr(padLeftStr(num.toString(), len)).reverse()
 }
 
-module.exports = class flip {
+export class Flip {
   constructor({
     node,
     from = 0,

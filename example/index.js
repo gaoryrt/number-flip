@@ -1,5 +1,4 @@
-import './main.css'
-import Flip from '../flip'
+import { Flip } from '../number-flip.js'
 
 const $ = s => document.querySelector(s)
 

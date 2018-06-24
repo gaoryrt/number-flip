@@ -2,11 +2,17 @@
   "name": "number-flip",
   "version": "1.0.14",
   "description": "Change number with flipping animation",
-  "main": "dist/number-flip.min.js",
+  "main": "number-flip.js",
   "repository": "https://github.com/gaoryrt/flip.git",
   "author": "gaoryrt",
   "license": "MIT",
   "dependencies": {
     "gelerator": "^1.1.50"
+  },
+  "devDependencies": {
+    "bili": "^3.1.2"
+  },
+  "scripts": {
+    "build": "bili number-flip.js --format umd-min,cjs"
   }
 }

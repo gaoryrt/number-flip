@@ -13,7 +13,7 @@ $ npm install --save number-flip
 # usage
 ## import `number-flip`
 ```
-import Flip from 'number-flip'
+import { Flip } from 'number-flip'
 ```
 
 ## use it!
@@ -71,6 +71,25 @@ new Flip({
   // for more easing function, see https://github.com/danro/easing-js/blob/master/easing.js
   systemArr: ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
 })
+```
+
+### CSS costumizable:
+HTML structure of a 3-digits flip would be like:
+```
+.number-flip
+    .ctnr.ctnr0
+        .digit*10
+    .ctnr.ctnr1
+        .digit*10
+    .ctnr.ctnr2
+        .digit*10
+```
+
+The heigth / width of `.number-flip` is based on the heigth / width of `.digit`, you can costumize the size by changing the css of `.digit`:
+```css
+  .number-flip { ... }
+  .ctnr { ... }
+  .digit { ... }
 ```
 
 # syntax
