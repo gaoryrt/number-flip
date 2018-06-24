@@ -1,6 +1,6 @@
 {
   "name": "number-flip",
-  "version": "1.0.16",
+  "version": "1.0.18",
   "description": "Change number with flipping animation",
   "main": "number-flip.js",
   "repository": "https://github.com/gaoryrt/flip.git",
