@@ -22,7 +22,7 @@ export class Flip {
                 : .5 * (Math.pow((pos - 2), 3) + 2)),
     systemArr = [...Array(10).keys()],
     direct = true,
-    maxLenNum
+    maxLenNum = 0
   }) {
     this.beforeArr = []
     this.afterArr = []
@@ -69,8 +69,9 @@ export class Flip {
     const from = this.beforeArr[digit]
     const modNum = ((per * alter + from) % 10 + 10) % 10
     const translateY = `translateY(${- modNum * this.height}px)`
-    this.ctnrArr[digit].style.webkitTransform = translateY
-    this.ctnrArr[digit].style.transform = translateY
+    const el = this.ctnrArr[digit]
+    el.style.webkitTransform = translateY
+    el.style.transform = translateY
   }
 
   flipTo({
@@ -79,9 +80,15 @@ export class Flip {
     easeFn,
     direct
   }) {
+    if (this.ctnrArr.length < to.toString().length) this._initHTML(to.toString().length)
     const len = this.ctnrArr.length
     this.beforeArr = num2PadNumArr(this.from, len)
     this.afterArr = num2PadNumArr(to, len)
+    this.ctnrArr.forEach((el, idx) => {
+      el.style.display = _maxLenOf(this.from, to) > idx
+        ? 'inline-block'
+        : 'none'
+    })
     const draw = per => {
       let temp = 0
       for (let d = this.ctnrArr.length - 1; d >= 0; d -= 1) {
