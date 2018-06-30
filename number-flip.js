@@ -86,6 +86,8 @@ export class Flip {
       let temp = 0
       for (let d = this.ctnrArr.length - 1; d >= 0; d -= 1) {
         let alter = this.afterArr[d] - this.beforeArr[d]
+        if (alter > 5) alter -= 10
+        if (alter < -5) alter += 10
         temp += alter
         const fn = easeFn || this.easeFn
         const di = direct !== undefined ? direct : this.direct
