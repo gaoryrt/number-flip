@@ -1,6 +1,6 @@
 import { g } from 'gelerator'
 
-const maxLenNum = (aNum, bNum) => (aNum > bNum ? aNum : bNum).toString().length
+const _maxLenOf = (aNum, bNum) => (aNum > bNum ? aNum : bNum).toString().length
 
 const num2PadNumArr = (num, len) => {
   const padLeftStr = (rawStr, lenNum) => (rawStr.length < lenNum
@@ -21,7 +21,8 @@ export class Flip {
                 ? .5 * Math.pow(pos, 3)
                 : .5 * (Math.pow((pos - 2), 3) + 2)),
     systemArr = [...Array(10).keys()],
-    direct = true
+    direct = true,
+    maxLenNum
   }) {
     this.beforeArr = []
     this.afterArr = []
@@ -33,7 +34,7 @@ export class Flip {
     this.to = to || 0
     this.node = node
     this.direct = direct
-    this._initHTML(maxLenNum(this.from, this.to))
+    this._initHTML(maxLenNum || _maxLenOf(this.from, this.to))
     if (to === undefined) return
     if (delay) setTimeout(() => this.flipTo({to: this.to, direct}), delay * 1000)
     else this.flipTo({to: this.to, direct})
