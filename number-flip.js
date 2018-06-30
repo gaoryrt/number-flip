@@ -77,7 +77,7 @@ export class Flip {
     to,
     duration,
     easeFn,
-    direct = true
+    direct
   }) {
     const len = this.ctnrArr.length
     this.beforeArr = num2PadNumArr(this.from, len)
@@ -88,10 +88,11 @@ export class Flip {
         let alter = this.afterArr[d] - this.beforeArr[d]
         temp += alter
         const fn = easeFn || this.easeFn
+        const di = direct !== undefined ? direct : this.direct
         this._draw({
           digit: d,
           per: fn(per),
-          alter: direct ? alter : temp
+          alter: di ? alter : temp
         })
         temp *= 10
       }
