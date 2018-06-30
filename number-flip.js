@@ -22,7 +22,7 @@ export class Flip {
                 : .5 * (Math.pow((pos - 2), 3) + 2)),
     systemArr = [...Array(10).keys()],
     direct = true,
-    maxLenNum = 0
+    maxLenNum
   }) {
     this.beforeArr = []
     this.afterArr = []
@@ -34,6 +34,7 @@ export class Flip {
     this.to = to || 0
     this.node = node
     this.direct = direct
+    this.maxLenNum = maxLenNum
     this._initHTML(maxLenNum || _maxLenOf(this.from, this.to))
     if (to === undefined) return
     if (delay) setTimeout(() => this.flipTo({to: this.to, direct}), delay * 1000)
@@ -41,6 +42,8 @@ export class Flip {
   }
 
   _initHTML(digits) {
+    this.ctnrArr = []
+    while (this.node.firstChild) this.node.removeChild(this.node.firstChild)
     this.node.classList.add('number-flip')
     this.node.style.position = 'relative'
     this.node.style.overflow = 'hidden'
@@ -80,11 +83,11 @@ export class Flip {
     easeFn,
     direct
   }) {
-    if (this.ctnrArr.length < to.toString().length) this._initHTML(to.toString().length)
+    if (this.maxLenNum === undefined && this.ctnrArr.length < to.toString().length) this._initHTML(to.toString().length)
     const len = this.ctnrArr.length
     this.beforeArr = num2PadNumArr(this.from, len)
     this.afterArr = num2PadNumArr(to, len)
-    this.ctnrArr.forEach((el, idx) => {
+    if (this.maxLenNum === undefined) this.ctnrArr.forEach((el, idx) => {
       el.style.display = _maxLenOf(this.from, to) > idx
         ? 'inline-block'
         : 'none'
