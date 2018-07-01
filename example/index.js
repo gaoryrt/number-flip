@@ -10,7 +10,7 @@ const flip = new Flip({
     if ((pos/=0.5) < 1) return 0.5*Math.pow(pos,3);
     return 0.5 * (Math.pow((pos-2),3) + 2);
   },
-  maxLenNum: 3,
+  // maxLenNum: 3,
   // systemArr: ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
 })
 
