@@ -2,7 +2,7 @@
   "name": "number-flip",
   "version": "1.0.20",
   "description": "Change number with flipping animation",
-  "main": "number-flip.js",
+  "main": "dist/number-flip.min.js",
   "repository": "https://github.com/gaoryrt/flip.git",
   "author": "gaoryrt",
   "license": "MIT",
@@ -13,6 +13,6 @@
     "poi": "^10.2.9"
   },
   "scripts": {
-    "build": "poi build number-flip.js --format umd --filename.js number-flip.min.js"
+    "build": "poi build"
   }
 }
