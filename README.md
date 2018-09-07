@@ -1,4 +1,5 @@
 # number-flip
+[![https://nodei.co/npm/number-flip.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/number-flip.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/number-flip)
 Change number with flipping animation
 
 ![](./demo.gif)
