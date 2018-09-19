@@ -10,6 +10,8 @@ const num2PadNumArr = (num, len) => {
   return str2NumArr(padLeftStr(num.toString(), len)).reverse()
 }
 
+const isstr = any => Object.prototype.toString.call(any) === '[object String]'
+
 export class Flip {
   constructor({
     node,
@@ -21,7 +23,9 @@ export class Flip {
                 ? .5 * Math.pow(pos, 3)
                 : .5 * (Math.pow((pos - 2), 3) + 2)),
     systemArr = [...Array(10).keys()],
-    direct = true
+    direct = true,
+    separator,
+    separateEvery = 3
   }) {
     this.beforeArr = []
     this.afterArr = []
@@ -33,6 +37,8 @@ export class Flip {
     this.to = to || 0
     this.node = node
     this.direct = direct
+    this.separator = separator
+    this.separateEvery = separateEvery
     this._initHTML(maxLenNum(this.from, this.to))
     if (to === undefined) return
     if (delay) setTimeout(() => this.flipTo({to: this.to, direct}), delay * 1000)
@@ -50,9 +56,15 @@ export class Flip {
       )
       ctnr.style.position = 'relative'
       ctnr.style.display = 'inline-block'
+      ctnr.style.verticalAlign = 'top'
       this.ctnrArr.unshift(ctnr)
       this.node.appendChild(ctnr)
       this.beforeArr.push(0)
+      if (!this.separator || !this.separateEvery || i === digits - 1 || (digits - i) % this.separateEvery != 1) return
+      const sprtrStr = isstr(this.separator) ? this.separator : this.separator.shift()
+      const sprtr = g('sprtr')(sprtrStr)
+      sprtr.style.display = 'inline-block'
+      this.node.appendChild(sprtr)
     })
     this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1)
     this.node.style.height = this.height + 'px'
