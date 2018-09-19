@@ -4,7 +4,7 @@ const $ = s => document.querySelector(s)
 
 const flip = new Flip({
   node: $('.flip'),
-  from: 725,
+  from: 7258829,
   easeFn: function(pos) {
     if ((pos/=0.5) < 1) return 0.5*Math.pow(pos,3);
     return 0.5 * (Math.pow((pos-2),3) + 2);
@@ -13,7 +13,7 @@ const flip = new Flip({
 })
 
 $('button').onclick = () => {
-  const num = ~~(Math.random() * 999)
+  const num = ~~(Math.random() * 9999999)
   $('.num').innerText = num
   flip.flipTo({to: num, direct: true})
 }
