@@ -2552,9 +2552,9 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-gelerator@^1.1.52:
-  version "1.1.52"
-  resolved "https://registry.npmjs.org/gelerator/-/gelerator-1.1.52.tgz#a032b826757bb387534238dde848bf88b83689ff"
+gelerator@^1.1.54:
+  version "1.1.54"
+  resolved "http://registry.npm.taobao.org/gelerator/download/gelerator-1.1.54.tgz#5ebc1301ad9e8cebc1123599ea8dcaca5048dab3"
 
 get-caller-file@^1.0.1:
   version "1.0.2"

@@ -7,7 +7,7 @@
   "author": "gaoryrt",
   "license": "MIT",
   "dependencies": {
-    "gelerator": "^1.1.52"
+    "gelerator": "^1.1.54"
   },
   "devDependencies": {
     "poi": "^10.2.9"
