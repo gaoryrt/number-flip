@@ -115,7 +115,7 @@ new Flip({
   node: $('.flip'),
   from: 95279527,
   separator: ['万', '亿', '兆'],
-  separatorEvery: 4
+  separateEvery: 4
 })
 ```
 
