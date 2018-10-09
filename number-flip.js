@@ -1,6 +1,6 @@
 import { g } from 'gelerator'
 
-const maxLenNum = (aNum, bNum) => (aNum > bNum ? aNum : bNum).toString().length
+const _maxLenOf = (aNum, bNum) => (aNum > bNum ? aNum : bNum).toString().length
 
 const num2PadNumArr = (num, len) => {
   const padLeftStr = (rawStr, lenNum) => (rawStr.length < lenNum
@@ -25,7 +25,8 @@ export class Flip {
     systemArr = [...Array(10).keys()],
     direct = true,
     separator,
-    separateEvery = 3
+    separateEvery = 3,
+    maxLenNum
   }) {
     this.beforeArr = []
     this.afterArr = []
@@ -39,13 +40,16 @@ export class Flip {
     this.direct = direct
     this.separator = separator
     this.separateEvery = separateEvery
-    this._initHTML(maxLenNum(this.from, this.to))
+    this.maxLenNum = maxLenNum
+    this._initHTML(maxLenNum || _maxLenOf(this.from, this.to))
     if (to === undefined) return
     if (delay) setTimeout(() => this.flipTo({to: this.to, direct}), delay * 1000)
     else this.flipTo({to: this.to, direct})
   }
 
   _initHTML(digits) {
+    this.ctnrArr = []
+    while (this.node.firstChild) this.node.removeChild(this.node.firstChild)
     this.node.classList.add('number-flip')
     this.node.style.position = 'relative'
     this.node.style.overflow = 'hidden'
@@ -80,29 +84,39 @@ export class Flip {
     const from = this.beforeArr[digit]
     const modNum = ((per * alter + from) % 10 + 10) % 10
     const translateY = `translateY(${- modNum * this.height}px)`
-    this.ctnrArr[digit].style.webkitTransform = translateY
-    this.ctnrArr[digit].style.transform = translateY
+    const el = this.ctnrArr[digit]
+    el.style.webkitTransform = translateY
+    el.style.transform = translateY
   }
 
   flipTo({
     to,
     duration,
     easeFn,
-    direct = true
+    direct
   }) {
+    if (this.maxLenNum === undefined && this.ctnrArr.length < to.toString().length) this._initHTML(to.toString().length)
     const len = this.ctnrArr.length
     this.beforeArr = num2PadNumArr(this.from, len)
     this.afterArr = num2PadNumArr(to, len)
+    if (this.maxLenNum === undefined) this.ctnrArr.forEach((el, idx) => {
+      el.style.display = _maxLenOf(this.from, to) > idx
+        ? 'inline-block'
+        : 'none'
+    })
     const draw = per => {
       let temp = 0
       for (let d = this.ctnrArr.length - 1; d >= 0; d -= 1) {
         let alter = this.afterArr[d] - this.beforeArr[d]
+        if (alter > 5) alter -= 10
+        if (alter < -5) alter += 10
         temp += alter
         const fn = easeFn || this.easeFn
+        const di = direct !== undefined ? direct : this.direct
         this._draw({
           digit: d,
           per: fn(per),
-          alter: direct ? alter : temp
+          alter: di ? alter : temp
         })
         temp *= 10
       }

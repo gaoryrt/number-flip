@@ -143,6 +143,7 @@ The returned Flip instance has a function called `flipTo`.
 - `direct` `optional`: A boolean representing if the number would rolling directly or one by one. For example, from 0 to 99, the ones place would pass 9 digits if is direct. Or if is not directly, would pass 99 digits, 9 rounds for each of the tens place. If not specified, `direct` defaults `true`.
 - `separator`: A string / array representing the separator, defaults off. Could set to a string or an array-of-string.
 - `separateEvery`: The number per digit separator would add to, defaults `3`.
+- `maxLenNum` `optional`: A number representing the number of digits, if not specified, length of digits would fits the [`maxLenNum`](https://github.com/gaoryrt/number-flip/blob/9d0e554155339502316121318bde7bf5ae57df5d/number-flip.js#L3) of given `from` and `to`. Otherwise, length of digits won't change (see more at [this issue](https://github.com/gaoryrt/number-flip/issues/5)).
 
 **`instanceOptions`**
 
