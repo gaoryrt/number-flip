@@ -1,5 +1,5 @@
 ---
-name: I got a bug!
+name: report a bug!
 about: something went wrong
 
 ---
