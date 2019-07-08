@@ -142,7 +142,8 @@ The returned Flip instance has a function called `flipTo`.
 - `systemArr` `optional`: An array ten-lengthed, representing the content of each decimal rolling system. If not specified, `systemArr` defaults to `[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]`.
 - `direct` `optional`: A boolean representing if the number would rolling directly or one by one. For example, from 0 to 99, the ones place would pass 9 digits if is direct. Or if is not directly, would pass 99 digits, 9 rounds for each of the tens place. If not specified, `direct` defaults `true`.
 - `separator`: A string / array representing the separator, defaults off. Could set to a string or an array-of-string.
-- `separateEvery`: The number per digit separator would add to, defaults `3`.
+- `seperateOnly`: A number representing the only separator， defaults `0`.
+- `separateEvery`: The number per digit separator would add to, defaults `3`, won't work if `seperateOnly` has been set.
 
 **`instanceOptions`**
 
