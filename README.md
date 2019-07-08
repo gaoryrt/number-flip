@@ -22,7 +22,7 @@ import { Flip } from 'number-flip'
 ```
 
 ## use it!
-### create one and make it flip:
+### create one and make it flip immediately:
 ```js
 new Flip({
   node: $('.flip'),
@@ -166,4 +166,3 @@ MIT
 2. `git checkout -b NEW-FEATURE`
 3. `git commit -am 'ADD SOME FEATURE'`
 4. `git push origin NEW-FEATURE`
-
