@@ -75,18 +75,14 @@ export class Flip {
       sprtr.style.display = 'inline-block'
       this.node.appendChild(sprtr)
     })
-    const init = () => {
-      this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1)
-      this.node.style.height = this.height + 'px'
-      for (let d = 0, len = this.ctnrArr.length; d < len; d += 1)
-        this._draw({
-          digit: d,
-          per: 1,
-          alter: ~~(this.from / Math.pow(10, d))
-        })
-    }
-    init()
-    window.addEventListener('resize', init)
+    this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1)
+    this.node.style.height = this.height + 'px'
+    for (let d = 0, len = this.ctnrArr.length; d < len; d += 1)
+      this._draw({
+        digit: d,
+        per: 1,
+        alter: ~~(this.from / Math.pow(10, d))
+      })
   }
 
   _draw({ per, alter, digit }) {
@@ -134,6 +130,11 @@ export class Flip {
         draw(1)
       }
     }
+    window.addEventListener('resize', () => {
+      this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1)
+      this.node.style.height = this.height + 'px'
+      draw(1)
+    })
     requestAnimationFrame(tick)
   }
 }
