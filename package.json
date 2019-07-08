@@ -10,7 +10,7 @@
     "gelerator": "^1.1.54"
   },
   "devDependencies": {
-    "poi": "^10.2.9"
+    "poi": "9.6.13"
   },
   "scripts": {
     "build": "poi build"
