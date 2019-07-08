@@ -25,6 +25,7 @@ export class Flip {
     systemArr = [...Array(10).keys()],
     direct = true,
     separator,
+    seperateOnly = 0,
     separateEvery = 3
   }) {
     this.beforeArr = []
@@ -38,7 +39,8 @@ export class Flip {
     this.node = node
     this.direct = direct
     this.separator = separator
-    this.separateEvery = separateEvery
+    this.seperateOnly = seperateOnly
+    this.separateEvery = seperateOnly ? 0 : separateEvery
     this._initHTML(maxLenNum(this.from, this.to))
     if (to === undefined) return
     if (delay) setTimeout(() => this.flipTo({to: this.to, direct}), delay * 1000)
@@ -60,7 +62,14 @@ export class Flip {
       this.ctnrArr.unshift(ctnr)
       this.node.appendChild(ctnr)
       this.beforeArr.push(0)
-      if (!this.separator || !this.separateEvery || i === digits - 1 || (digits - i) % this.separateEvery != 1) return
+      if (
+        !this.separator ||
+        (!this.separateEvery && !this.seperateOnly) ||
+        i === digits - 1 ||
+        ((digits - i) % this.separateEvery != 1 && digits - i - this.seperateOnly != 1)
+      ) {
+        return;
+      }
       const sprtrStr = isstr(this.separator) ? this.separator : this.separator.shift()
       const sprtr = g('sprtr')(sprtrStr)
       sprtr.style.display = 'inline-block'
@@ -76,7 +85,10 @@ export class Flip {
       })
   }
 
-  _draw({per, alter, digit}) {
+  _draw({ per, alter, digit }) {
+    if (this.height !== this.ctnrArr[0].clientHeight / (this.systemArr.length + 1)) {
+      this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1);
+    }
     const from = this.beforeArr[digit]
     const modNum = ((per * alter + from) % 10 + 10) % 10
     const translateY = `translateY(${- modNum * this.height}px)`
