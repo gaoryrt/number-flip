@@ -161,6 +161,11 @@ The returned Flip instance has a function called `flipTo`.
 # license
 MIT
 
+# Credit
+[![](./browserstack-logo-600x315.png)](http://browserstack.com/)
+
+Special thanks to [Browserstack](http://browserstack.com/) providing cross-browser testing.
+
 # contributing
 1. fork this repo
 2. `git checkout -b NEW-FEATURE`
