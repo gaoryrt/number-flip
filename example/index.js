@@ -1,4 +1,4 @@
-import { Flip } from '../dist'
+import { Flip } from '../number-flip'
 
 const $ = s => document.querySelector(s)
 
