@@ -1,4 +1,4 @@
-import { Flip } from '../number-flip.js'
+import { Flip } from '../dist'
 
 const $ = s => document.querySelector(s)
 
