@@ -22,7 +22,7 @@ export class Flip {
     easeFn = (pos => (pos /= .5) < 1
                 ? .5 * Math.pow(pos, 3)
                 : .5 * (Math.pow((pos - 2), 3) + 2)),
-    systemArr = [...Array(10).keys()],
+    systemArr = [0,1,2,3,4,5,6,7,8,9],
     direct = true,
     separator,
     seperateOnly = 0,
@@ -51,7 +51,8 @@ export class Flip {
     this.node.classList.add('number-flip')
     this.node.style.position = 'relative'
     this.node.style.overflow = 'hidden'
-    ;[...Array(digits).keys()].forEach(i => {
+    for (let i = 0; i < digits; i += 1) {
+      console.log(digits, i)
       const ctnr = g(`ctnr ctnr${i}`)(
         ...this.systemArr.map(i => g('digit')(i)),
         g('digit')(this.systemArr[0])
@@ -68,13 +69,13 @@ export class Flip {
         i === digits - 1 ||
         ((digits - i) % this.separateEvery != 1 && digits - i - this.seperateOnly != 1)
       ) {
-        return;
+        continue;
       }
       const sprtrStr = isstr(this.separator) ? this.separator : this.separator.shift()
       const sprtr = g('sprtr')(sprtrStr)
       sprtr.style.display = 'inline-block'
       this.node.appendChild(sprtr)
-    })
+    }
     this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1)
     this.node.style.height = this.height + 'px'
     for (let d = 0, len = this.ctnrArr.length; d < len; d += 1)
