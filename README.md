@@ -22,7 +22,7 @@ import { Flip } from 'number-flip'
 ```
 
 ## use it!
-### create one and make it flip:
+### create one and make it flip immediately:
 ```js
 new Flip({
   node: $('.flip'),
@@ -142,7 +142,8 @@ The returned Flip instance has a function called `flipTo`.
 - `systemArr` `optional`: An array ten-lengthed, representing the content of each decimal rolling system. If not specified, `systemArr` defaults to `[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]`.
 - `direct` `optional`: A boolean representing if the number would rolling directly or one by one. For example, from 0 to 99, the ones place would pass 9 digits if is direct. Or if is not directly, would pass 99 digits, 9 rounds for each of the tens place. If not specified, `direct` defaults `true`.
 - `separator`: A string / array representing the separator, defaults off. Could set to a string or an array-of-string.
-- `separateEvery`: The number per digit separator would add to, defaults `3`.
+- `seperateOnly`: A number representing the only separator， defaults `0`.
+- `separateEvery`: The number per digit separator would add to, defaults `3`, won't work if `seperateOnly` has been set.
 - `maxLenNum` `optional`: A number representing the number of digits, if not specified, length of digits would fits the [`maxLenNum`](https://github.com/gaoryrt/number-flip/blob/9d0e554155339502316121318bde7bf5ae57df5d/number-flip.js#L3) of given `from` and `to`. Otherwise, length of digits won't change (see more at [this issue](https://github.com/gaoryrt/number-flip/issues/5)).
 
 **`instanceOptions`**
@@ -161,9 +162,13 @@ The returned Flip instance has a function called `flipTo`.
 # license
 MIT
 
+# Credit
+[![](./browserstack-logo-600x315.png)](http://browserstack.com/)
+
+Special thanks to [Browserstack](http://browserstack.com/) providing cross-browser testing.
+
 # contributing
 1. fork this repo
 2. `git checkout -b NEW-FEATURE`
 3. `git commit -am 'ADD SOME FEATURE'`
 4. `git push origin NEW-FEATURE`
-
