@@ -51,7 +51,7 @@ const el = new Flip({
 el.flipTo({to: 42})
 ```
 
-### costumize animate duration:
+### customize animation duration:
 ```js
 new Flip({
   node: document.querySelector('.flip'),
