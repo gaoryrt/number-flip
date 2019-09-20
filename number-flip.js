@@ -120,10 +120,10 @@ export class Flip {
         temp *= 10
       }
     }
-    const start = performance.now()
+    const start = Date.now()
     const dur = (duration * 1000) || this.duration
-    const tick = now => {
-      let elapsed = now - start
+    const tick = () => {
+      let elapsed = Date.now() - start
       draw(elapsed / dur)
       if (elapsed < dur) requestAnimationFrame(tick)
       else {
