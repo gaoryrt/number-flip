@@ -52,7 +52,6 @@ export class Flip {
     this.node.style.position = 'relative'
     this.node.style.overflow = 'hidden'
     for (let i = 0; i < digits; i += 1) {
-      console.log(digits, i)
       const ctnr = g(`ctnr ctnr${i}`)(
         ...this.systemArr.map(i => g('digit')(i)),
         g('digit')(this.systemArr[0])

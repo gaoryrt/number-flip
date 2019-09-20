@@ -8,5 +8,5 @@ npm i -g poi
 if you already installed poi globally, run the demo:
 
 ```
-poi
+poi --serve index.html
 ```
