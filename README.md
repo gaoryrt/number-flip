@@ -166,6 +166,12 @@ MIT
 
 Special thanks to [Browserstack](http://browserstack.com/) providing cross-browser testing.
 
+# Dev and Build
+```bash
+yarn dev
+yarn build
+```
+
 # contributing
 1. fork this repo
 2. `git checkout -b NEW-FEATURE`
