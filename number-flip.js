@@ -31,6 +31,7 @@ export class Flip {
     this.beforeArr = []
     this.afterArr = []
     this.ctnrArr = []
+    this.ctnrClientHeight = 0
     this.duration = duration * 1000
     this.systemArr = systemArr
     this.easeFn = easeFn
@@ -75,7 +76,8 @@ export class Flip {
       sprtr.style.display = 'inline-block'
       this.node.appendChild(sprtr)
     }
-    this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1)
+    this.ctnrClientHeight = this.ctnrArr[0].clientHeight
+    this.height = this.ctnrClientHeight / (this.systemArr.length + 1)
     this.node.style.height = this.height + 'px'
     for (let d = 0, len = this.ctnrArr.length; d < len; d += 1)
       this._draw({
@@ -86,8 +88,8 @@ export class Flip {
   }
 
   _draw({ per, alter, digit }) {
-    if (this.height !== this.ctnrArr[0].clientHeight / (this.systemArr.length + 1)) {
-      this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1);
+    if (this.height !== this.ctnrClientHeight / (this.systemArr.length + 1)) {
+      this.height = this.ctnrClientHeight / (this.systemArr.length + 1);
     }
     const from = this.beforeArr[digit]
     const modNum = ((per * alter + from) % 10 + 10) % 10
