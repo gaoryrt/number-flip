@@ -8,7 +8,7 @@ Change number with flipping animation
 
 ![](./demo2.gif)
 
-[demo on codepen](https://codepen.io/gaoryrt/pen/oyyMBx)
+[demo on codesandbox](https://codesandbox.io/embed/throbbing-flower-ncm0q)
 
 # install
 ```
