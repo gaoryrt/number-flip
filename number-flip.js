@@ -89,9 +89,8 @@ export class Flip {
   }
 
   _draw({ per, alter, digit }) {
-    if (this.height !== this.ctnrArr[0].clientHeight / (this.systemArr.length + 1)) {
-      this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1)
-    }
+    const newHeight = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1)
+    if (newHeight && this.height !== newHeight) this.height = newHeight
     const from = this.beforeArr[digit]
     const modNum = ((per * alter + from) % 10 + 10) % 10
     const translateY = `translateY(${- modNum * this.height}px)`
