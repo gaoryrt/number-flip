@@ -97,7 +97,7 @@ The height / width of `.number-flip` is based on the height / width of `.digit`,
   .digit { ... }
 ```
 
-### Separator:
+### separator:
 Spearator allowed
 
 ```js
@@ -161,12 +161,12 @@ The returned Flip instance has a function called `flipTo`.
 # license
 MIT
 
-# Credit
+# credit
 [![](./browserstack-logo-600x315.png)](http://browserstack.com/)
 
 Special thanks to [Browserstack](http://browserstack.com/) providing cross-browser testing.
 
-# Dev and Build
+# dev and build
 ```bash
 yarn dev
 yarn build
@@ -177,3 +177,7 @@ yarn build
 2. `git checkout -b NEW-FEATURE`
 3. `git commit -am 'ADD SOME FEATURE'`
 4. `git push origin NEW-FEATURE`
+
+# donate
+[![](https://cdn.buymeacoffee.com/buttons/default-white.png)](https://www.buymeacoffee.com/pT2Y5iN)
+![](https://jungle.fm/assets/donate.jpg)
