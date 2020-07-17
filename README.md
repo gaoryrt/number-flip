@@ -177,7 +177,3 @@ yarn build
 2. `git checkout -b NEW-FEATURE`
 3. `git commit -am 'ADD SOME FEATURE'`
 4. `git push origin NEW-FEATURE`
-
-# donate
-[![](https://cdn.buymeacoffee.com/buttons/default-white.png)](https://www.buymeacoffee.com/pT2Y5iN)
-![](https://jungle.fm/assets/donate.jpg)
