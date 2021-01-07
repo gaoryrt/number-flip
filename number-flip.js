@@ -42,6 +42,7 @@ export class Flip {
     this.seperateOnly = seperateOnly
     this.separateEvery = seperateOnly ? 0 : separateEvery
     this._initHTML(maxLenNum(this.from, this.to))
+    this.setSelect(this.from)
     if (to === undefined) return
     if (delay) setTimeout(() => this.flipTo({to: this.to}), delay * 1000)
     else this.flipTo({to: this.to})
@@ -52,13 +53,16 @@ export class Flip {
     this.node.style.position = 'relative'
     this.node.style.overflow = 'hidden'
     for (let i = 0; i < digits; i += 1) {
-      const ctnr = g(`ctnr ctnr${i}`)(
-        ...this.systemArr.map(i => g('digit')(i)),
-        g('digit')(this.systemArr[0])
+      const ctnr = g(`.ctnr.ctnr${i}`, {
+        style: {
+          position: 'relative',
+          display: 'inline-block',
+          verticalAlign: 'top'
+        }
+      })(
+        ...this.systemArr.map(i => g('.digit')(i)),
+        g('.digit')(this.systemArr[0])
       )
-      ctnr.style.position = 'relative'
-      ctnr.style.display = 'inline-block'
-      ctnr.style.verticalAlign = 'top'
       this.ctnrArr.unshift(ctnr)
       this.node.appendChild(ctnr)
       this.beforeArr.push(0)
@@ -69,8 +73,9 @@ export class Flip {
         ((digits - i) % this.separateEvery != 1 && digits - i - this.seperateOnly != 1)
       ) continue
       const sprtrStr = isstr(this.separator) ? this.separator : this.separator.shift()
-      const sprtr = g('sprtr')(sprtrStr)
-      sprtr.style.display = 'inline-block'
+      const sprtr = g('.sprtr', {
+        style: {display: 'inline-block'}
+      })(sprtrStr)
       this.node.appendChild(sprtr)
     }
     const resize = () => {
@@ -120,6 +125,7 @@ export class Flip {
   }) {
     if (easeFn) this.easeFn = easeFn
     if (direct !== undefined) this.direct = direct
+    this.setSelect(to)
     const len = this.ctnrArr.length
     this.beforeArr = num2PadNumArr(this.from, len)
     this.afterArr = num2PadNumArr(to, len)
@@ -135,5 +141,15 @@ export class Flip {
       }
     }
     requestAnimationFrame(tick)
+  }
+
+  setSelect(num) {
+    const len = this.ctnrArr.length
+    num2PadNumArr(num, len).forEach((n, digit) => {
+      for (let i = 0; i < this.ctnrArr[digit].childNodes.length; i += 1) {
+        const el = this.ctnrArr[digit].childNodes[i]
+        el.style.userSelect = i === n ? 'auto' : 'none'
+      }
+    })
   }
 }
