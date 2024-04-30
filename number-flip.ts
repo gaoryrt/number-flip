@@ -32,6 +32,7 @@ export class Flip {
   private easeFn: (pos: number) => number;
   from: number;
   to: number;
+  private _rawNode: HTMLElement;
   private node: HTMLElement;
   private direct: boolean;
   private separator?: string | string[];
@@ -61,6 +62,7 @@ export class Flip {
     this.from = from;
     this.to = to || 0;
     this.node = node;
+    this._rawNode = node.cloneNode(true) as HTMLElement;
     this.direct = direct;
     this.separator = separator;
     this.separateOnly = separateOnly;
@@ -106,20 +108,9 @@ export class Flip {
       separator.innerHTML = sprtrStr;
       this.node.appendChild(separator);
     }
-    const resize = () => {
-      this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1);
-      this.node.style.height = this.height + 'px';
-      if (this.afterArr.length) this.frame(1);
-      else
-        for (let d = 0, len = this.ctnrArr.length; d < len; d += 1)
-          this._draw({
-            digit: d,
-            per: 1,
-            alter: ~~(this.from / Math.pow(10, d)),
-          });
-    };
-    resize();
-    window.addEventListener('resize', resize);
+ 
+    this._resize();
+    window.addEventListener('resize', this._resize);
   }
 
   _draw({ per, alter, digit }: { per: number; alter: number; digit: number }) {
@@ -130,6 +121,19 @@ export class Flip {
     const translateY = `translateY(${-modNum * (this.height || 0)}px)`;
     this.ctnrArr[digit].style.webkitTransform = translateY;
     this.ctnrArr[digit].style.transform = translateY;
+  }
+
+  _resize() {
+    this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1);
+    this.node.style.height = this.height + 'px';
+    if (this.afterArr.length) this.frame(1);
+    else
+      for (let d = 0, len = this.ctnrArr.length; d < len; d += 1)
+        this._draw({
+          digit: d,
+          per: 1,
+          alter: ~~(this.from / Math.pow(10, d)),
+        });
   }
 
   frame(per: number) {
@@ -185,5 +189,10 @@ export class Flip {
         el.style.userSelect = i === n ? 'auto' : 'none';
       }
     });
+  }
+
+  destroy() {
+    window.removeEventListener('resize', this._resize);
+    this.node.parentNode?.replaceChild(this._rawNode, this.node);
   }
 }
