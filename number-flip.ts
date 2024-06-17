@@ -79,7 +79,7 @@ export class Flip {
     for (let i = 0; i < digits; i += 1) {
       
       const ctnr = document.createElement('div');
-      ctnr.className = `.ctnr.ctnr${i}`;
+      ctnr.className = `ctnr ctnr${i}`;
       ctnr.style.position = 'relative';
       ctnr.style.display = 'inline-block';
       ctnr.style.verticalAlign = 'top';
