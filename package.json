@@ -1,6 +1,6 @@
 {
   "name": "number-flip",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Change number with flipping animation",
   "main": "dist/index.js",
   "types": "dist/number-flip.d.ts",
