@@ -38,6 +38,7 @@ export class Flip {
   private separateOnly: number;
   private separateEvery: number;
   private height?: number;
+  private _resizeHandler: () => void;
 
   constructor({
     node,
@@ -52,6 +53,7 @@ export class Flip {
     separateOnly = 0,
     separateEvery = 3,
   }: FlipOptions) {
+    this._resizeHandler = this._resize.bind(this);
     this.beforeArr = [];
     this.afterArr = [];
     this.ctnrArr = [];
@@ -77,7 +79,6 @@ export class Flip {
     this.node.style.position = 'relative';
     this.node.style.overflow = 'hidden';
     for (let i = 0; i < digits; i += 1) {
-      
       const ctnr = document.createElement('div');
       ctnr.className = `ctnr ctnr${i}`;
       ctnr.style.position = 'relative';
@@ -106,9 +107,8 @@ export class Flip {
       separator.innerHTML = sprtrStr;
       this.node.appendChild(separator);
     }
- 
     this._resize();
-    window.addEventListener('resize', this._resize);
+    window.addEventListener('resize', this._resizeHandler);
   }
 
   _draw({ per, alter, digit }: { per: number; alter: number; digit: number }) {
@@ -190,6 +190,6 @@ export class Flip {
   }
 
   destroy() {
-    window.removeEventListener('resize', this._resize);
+    window.removeEventListener('resize', this._resizeHandler);
   }
 }

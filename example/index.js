@@ -12,8 +12,12 @@ const flip = new Flip({
   systemArr: ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖']
 })
 
-$('button').onclick = () => {
+$('.shuffle').onclick = () => {
   const num = ~~(Math.random() * 9999999)
   $('.num').innerText = num
   flip.flipTo({to: num, direct: true})
+}
+
+$('.destroy').onclick = () => {
+  flip.destroy()
 }
