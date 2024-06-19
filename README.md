@@ -97,6 +97,15 @@ The height / width of `.number-flip` is based on the height / width of `.digit`,
   .digit { ... }
 ```
 
+or you can rename it in config:
+```js
+new Flip({
+  containerClassName: 'c',
+  digitClassName: 'd',
+  separatorClassName: 's'
+})
+```
+
 ### separator:
 Spearator allowed
 
