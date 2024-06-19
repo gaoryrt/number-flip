@@ -33,6 +33,7 @@ export declare class Flip {
         alter: number;
         digit: number;
     }): void;
+    _resize(): void;
     frame(per: number): void;
     flipTo({ to, duration, easeFn, direct, }: {
         to: number;
@@ -41,5 +42,6 @@ export declare class Flip {
         direct?: boolean;
     }): void;
     setSelect(num: any): void;
+    destroy(): void;
 }
 export {};
