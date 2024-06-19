@@ -20,7 +20,6 @@ export declare class Flip {
     private easeFn;
     from: number;
     to: number;
-    private _rawNode;
     private node;
     private direct;
     private separator?;
