@@ -1,7 +1,9 @@
 html {
   width: 100%;
   overflow-x: hidden;
-  font-family: AvenirNext, Avenir, -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
+  font-family: AvenirNext, Avenir, -apple-system, BlinkMacSystemFont,
+    "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun,
+    sans-serif;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -13,11 +15,14 @@ html {
   text-rendering: optimizeLegibility;
   text-size-adjust: 100%;
   font-size: 30px;
-  padding: 40px;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.DDD {
+  font-style: italic;
 }
