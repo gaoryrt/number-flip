@@ -14,7 +14,7 @@ html {
   -webkit-tap-highlight-color: transparent;
   text-rendering: optimizeLegibility;
   text-size-adjust: 100%;
-  font-size: 30px;
+  font-size: 24px;
 }
 
 * {
@@ -25,4 +25,10 @@ html {
 
 .DDD {
   font-style: italic;
+}
+
+.ctnr {
+  width: 24px !important;
+  height: 32px !important;
+  line-height: 1.6 !important;
 }

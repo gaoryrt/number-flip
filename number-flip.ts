@@ -11,6 +11,14 @@ const num2PadNumArr = (num: { toString: () => any }, len: any) => {
 const isstr = (any: any): any is string =>
   Object.prototype.toString.call(any) === "[object String]";
 
+interface DigitContainer {
+  element: HTMLElement;
+  currentDigit: HTMLElement;
+  nextDigit: HTMLElement;
+  currentValue: number;
+  nextValue: number;
+}
+
 interface FlipOptions {
   node: HTMLElement;
   from: number;
@@ -31,7 +39,7 @@ interface FlipOptions {
 export class Flip {
   private beforeArr: Array<number>;
   private afterArr: Array<number>;
-  private ctnrArr: Array<HTMLElement>;
+  private digitContainers: Array<DigitContainer>;
   private duration: number;
   private systemArr: Array<string | number>;
   private easeFn: (pos: number) => number;
@@ -70,7 +78,7 @@ export class Flip {
     this._resizeHandler = this._resize.bind(this);
     this.beforeArr = [];
     this.afterArr = [];
-    this.ctnrArr = [];
+    this.digitContainers = [];
     this.duration = duration * 1000;
     this.systemArr = systemArr;
     this.easeFn = easeFn;
@@ -95,21 +103,50 @@ export class Flip {
     this.node.classList.add("number-flip");
     this.node.style.position = "relative";
     this.node.style.overflow = "hidden";
+
     for (let i = 0; i < digits; i += 1) {
       const ctnr = document.createElement("div");
       ctnr.className = `${this.containerClassName} ${this.containerClassName}${i}`;
       ctnr.style.position = "relative";
       ctnr.style.display = "inline-block";
-      ctnr.style.verticalAlign = "top";
-      [...this.systemArr, this.systemArr[0]].forEach((i) => {
-        const child = document.createElement("div");
-        child.className = this.digitClassName;
-        child.innerHTML = `${i}`;
-        ctnr.appendChild(child);
+      ctnr.style.verticalAlign = "middle";
+      ctnr.style.height = "32px";
+      ctnr.style.lineHeight = "32px";
+      ctnr.style.width = "28px";
+
+      // 创建当前数字元素
+      const currentDigit = document.createElement("div");
+      currentDigit.className = this.digitClassName;
+      currentDigit.style.position = "absolute";
+      currentDigit.style.top = "0";
+      currentDigit.style.left = "0";
+      currentDigit.style.width = "100%";
+      currentDigit.style.height = "100%";
+
+      // 创建下一个数字元素
+      const nextDigit = document.createElement("div");
+      nextDigit.className = this.digitClassName;
+      nextDigit.style.position = "absolute";
+      nextDigit.style.top = "0";
+      nextDigit.style.left = "0";
+      nextDigit.style.width = "100%";
+      nextDigit.style.height = "100%";
+      nextDigit.style.transform = "translateY(100%)";
+
+      ctnr.appendChild(currentDigit);
+      ctnr.appendChild(nextDigit);
+
+      this.digitContainers.unshift({
+        element: ctnr,
+        currentDigit,
+        nextDigit,
+        currentValue: 0,
+        nextValue: 0,
       });
-      this.ctnrArr.unshift(ctnr);
+
       this.node.appendChild(ctnr);
       this.beforeArr.push(0);
+
       if (
         !this.separator ||
         (!this.separateEvery && !this.separateOnly) ||
@@ -131,33 +168,76 @@ export class Flip {
     window.addEventListener("resize", this._resizeHandler);
   }
 
+  _updateDigitContainer(
+    container: DigitContainer,
+    currentValue: number,
+    nextValue: number
+  ) {
+    // 更新当前数字
+    container.currentDigit.innerHTML = `${this.systemArr[currentValue]}`;
+    container.currentValue = currentValue;
+
+    // 更新下一个数字
+    container.nextDigit.innerHTML = `${this.systemArr[nextValue]}`;
+    container.nextValue = nextValue;
+  }
+
   _draw({ per, alter, digit }: { per: number; alter: number; digit: number }) {
-    const newHeight =
-      this.ctnrArr[0].clientHeight / (this.systemArr.length + 1);
-    if (newHeight && this.height !== newHeight) this.height = newHeight;
+    const container = this.digitContainers[digit];
+    if (!container) return;
+
     const from = this.beforeArr[digit];
-    const modNum = (((per * alter + from) % 10) + 10) % 10;
-    const translateY = `translateY(${-modNum * (this.height || 0)}px)`;
-    this.ctnrArr[digit].style.webkitTransform = translateY;
-    this.ctnrArr[digit].style.transform = translateY;
+    const to = this.afterArr[digit];
+
+    // 计算当前应该显示的数字
+    const currentValue = Math.floor(((per * alter + from) % 10) + 10) % 10;
+    const nextValue = (currentValue + 1) % 10;
+
+    // 更新数字内容
+    this._updateDigitContainer(container, currentValue, nextValue);
+
+    // 计算动画进度
+    const progress = (per * alter + from) % 10;
+    const normalizedProgress = progress - Math.floor(progress);
+
+    // 应用动画
+    if (normalizedProgress > 0) {
+      // 显示下一个数字的动画
+      container.currentDigit.style.transform = `translateY(${
+        -normalizedProgress * 100
+      }%)`;
+      container.nextDigit.style.transform = `translateY(${
+        (1 - normalizedProgress) * 100
+      }%)`;
+    } else {
+      // 重置位置
+      container.currentDigit.style.transform = "translateY(0)";
+      container.nextDigit.style.transform = "translateY(100%)";
+    }
   }
 
   _resize() {
-    this.height = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1);
-    this.node.style.height = this.height + "px";
-    if (this.afterArr.length) this.frame(1);
-    else
-      for (let d = 0, len = this.ctnrArr.length; d < len; d += 1)
+    if (this.digitContainers.length > 0) {
+      this.height = this.digitContainers[0].element.clientHeight;
+      this.node.style.height = this.height + "px";
+    }
+
+    if (this.afterArr.length) {
+      this.frame(1);
+    } else {
+      for (let d = 0, len = this.digitContainers.length; d < len; d += 1) {
         this._draw({
           digit: d,
           per: 1,
           alter: ~~(this.from / Math.pow(10, d)),
         });
+      }
+    }
   }
 
   frame(per: number) {
     let temp = 0;
-    for (let d = this.ctnrArr.length - 1; d >= 0; d -= 1) {
+    for (let d = this.digitContainers.length - 1; d >= 0; d -= 1) {
       const alter = this.afterArr[d] - this.beforeArr[d];
       temp += alter;
       this._draw({
@@ -177,13 +257,13 @@ export class Flip {
   }: {
     to: number;
     duration?: number;
-    easeFn?: () => any;
+    easeFn?: (pos: number) => number;
     direct?: boolean;
   }) {
     if (easeFn) this.easeFn = easeFn;
     if (direct !== undefined) this.direct = direct;
     this.setSelect(to);
-    const len = this.ctnrArr.length;
+    const len = this.digitContainers.length;
     this.beforeArr = num2PadNumArr(this.from, len);
     this.afterArr = num2PadNumArr(to, len);
     const start = Date.now();
@@ -201,16 +281,25 @@ export class Flip {
   }
 
   setSelect(num: any) {
-    const len = this.ctnrArr.length;
+    const len = this.digitContainers.length;
     num2PadNumArr(num, len).forEach((n: number, digit: number) => {
-      for (let i = 0; i < this.ctnrArr[digit].childNodes.length; i += 1) {
-        const el = this.ctnrArr[digit].childNodes[i] as HTMLElement;
-        el.style.userSelect = i === n ? "auto" : "none";
+      const container = this.digitContainers[digit];
+      if (container) {
+        this._updateDigitContainer(container, n, (n + 1) % 10);
+        container.currentDigit.style.transform = "translateY(0)";
+        container.nextDigit.style.transform = "translateY(100%)";
       }
     });
   }
 
   destroy() {
     window.removeEventListener("resize", this._resizeHandler);
+    // 清理所有容器
+    this.digitContainers.forEach((container) => {
+      if (container.element.parentNode) {
+        container.element.parentNode.removeChild(container.element);
+      }
+    });
+    this.digitContainers = [];
   }
 }
