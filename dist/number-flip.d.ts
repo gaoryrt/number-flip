@@ -38,6 +38,7 @@ declare class Flip {
     _initHTML(digits: number): void;
     _buildDigits(digits: number): void;
     _rebuildDigits(digits: number): void;
+    _syncVisibleDigits(visible: number, fullBefore: number[], fullAfter: number[]): void;
     _draw({ per, alter, digit }: {
         per: number;
         alter: number;

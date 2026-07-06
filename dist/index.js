@@ -28,7 +28,29 @@ var NumberFlip = (() => {
   var num2PadNumArr = (num, len) => {
     const padLeftStr = (rawStr, lenNum) => rawStr.length < lenNum ? padLeftStr("0" + rawStr, lenNum) : rawStr;
     const str2NumArr = (rawStr) => rawStr.split("").map(Number);
-    return str2NumArr(padLeftStr(num.toString(), len)).reverse();
+    const raw = num.toString();
+    const padded = raw.length < len ? padLeftStr(raw, len) : raw;
+    return str2NumArr(padded.slice(-len)).reverse();
+  };
+  var num2DigitArr = (num) => Number(num).toString().split("").map(Number).reverse();
+  var widthCapAt = (neededDigits) => Math.pow(10, neededDigits) - 1;
+  var effectiveFromAt = (flipFrom, neededDigits) => Math.min(flipFrom, widthCapAt(neededDigits));
+  var effectiveToAt = (flipFrom, to, neededDigits) => {
+    const widthCap = widthCapAt(neededDigits);
+    return flipFrom < to ? Math.min(to, widthCap) : to;
+  };
+  var visibleDigitsAt = (per, before, after, easeFn) => {
+    const easedPer = easeFn(per);
+    let significant = 1;
+    for (let d = 0; d < before.length; d += 1) {
+      const alter = after[d] - before[d];
+      const from = before[d];
+      const modNum = ((easedPer * alter + from) % 10 + 10) % 10;
+      if (modNum !== 0 || alter !== 0 && easedPer > 0 && easedPer < 1) {
+        significant = Math.max(significant, d + 1);
+      }
+    }
+    return significant;
   };
   var isstr = (any) => Object.prototype.toString.call(any) === "[object String]";
   var Flip = class {
@@ -66,7 +88,7 @@ var NumberFlip = (() => {
       this.containerClassName = containerClassName;
       this.digitClassName = digitClassName;
       this.separatorClassName = separatorClassName;
-      this._initHTML(maxLenNum(this.from, this.to));
+      this._initHTML(digitOf(this.from));
       this.setSelect(this.from);
       if (to === void 0) return;
       if (delay) setTimeout(() => this.flipTo({ to: this.to }), delay * 1e3);
@@ -115,6 +137,13 @@ var NumberFlip = (() => {
       this._buildDigits(digits);
       this._resize();
     }
+    _syncVisibleDigits(visible, fullBefore, fullAfter) {
+      if (visible !== this.ctnrArr.length) {
+        this._rebuildDigits(visible);
+      }
+      this.beforeArr = fullBefore.slice(0, visible);
+      this.afterArr = fullAfter.slice(0, visible);
+    }
     _draw({ per, alter, digit }) {
       const newHeight = this.ctnrArr[0].clientHeight / (this.systemArr.length + 1);
       if (newHeight && this.height !== newHeight) this.height = newHeight;
@@ -157,28 +186,56 @@ var NumberFlip = (() => {
     }) {
       if (easeFn) this.easeFn = easeFn;
       if (direct !== void 0) this.direct = direct;
-      const flipDigits = maxLenNum(this.from, to);
-      this._rebuildDigits(flipDigits);
+      const flipFrom = this.from;
+      const maxLen = maxLenNum(flipFrom, to);
+      const fullBefore = num2PadNumArr(flipFrom, maxLen);
+      const fullAfter = num2PadNumArr(to, maxLen);
+      if (this.direct) {
+        this._syncVisibleDigits(
+          visibleDigitsAt(0, fullBefore, fullAfter, this.easeFn),
+          fullBefore,
+          fullAfter
+        );
+      } else if (this.ctnrArr.length !== digitOf(flipFrom)) {
+        this._rebuildDigits(digitOf(flipFrom));
+      }
       this.setSelect(to);
-      const len = this.ctnrArr.length;
-      this.beforeArr = num2PadNumArr(this.from, len);
-      this.afterArr = num2PadNumArr(to, len);
       const start = Date.now();
       const dur = duration * 1e3 || this.duration;
       const tick = () => {
         const elapsed = Date.now() - start;
-        this.frame(elapsed / dur);
+        const rawPer = Math.min(elapsed / dur, 1);
+        if (this.direct) {
+          this._syncVisibleDigits(
+            visibleDigitsAt(rawPer, fullBefore, fullAfter, this.easeFn),
+            fullBefore,
+            fullAfter
+          );
+        } else {
+          const easedPer = this.easeFn(rawPer);
+          const currentValue = Math.round(
+            flipFrom + (to - flipFrom) * easedPer
+          );
+          const neededDigits = digitOf(currentValue);
+          if (neededDigits !== this.ctnrArr.length) {
+            this._rebuildDigits(neededDigits);
+          }
+          const effectiveFrom = effectiveFromAt(flipFrom, neededDigits);
+          const effectiveTo = effectiveToAt(flipFrom, to, neededDigits);
+          this.beforeArr = num2PadNumArr(effectiveFrom, neededDigits);
+          this.afterArr = num2PadNumArr(effectiveTo, neededDigits);
+        }
+        this.frame(rawPer);
         if (elapsed < dur) requestAnimationFrame(tick);
         else {
           this.from = to;
-          this.frame(1);
           const finalDigits = digitOf(to);
           if (finalDigits !== this.ctnrArr.length) {
             this._rebuildDigits(finalDigits);
-            this.beforeArr = num2PadNumArr(this.from, finalDigits);
-            this.afterArr = [...this.beforeArr];
-            this.frame(1);
           }
+          this.beforeArr = num2DigitArr(this.from);
+          this.afterArr = [...this.beforeArr];
+          this.frame(1);
         }
       };
       requestAnimationFrame(tick);
@@ -199,10 +256,37 @@ var NumberFlip = (() => {
   var nodeProcess = globalThis.process;
   var _a, _b;
   if ((_b = (_a = nodeProcess == null ? void 0 : nodeProcess.argv) == null ? void 0 : _a[1]) == null ? void 0 : _b.endsWith("number-flip.ts")) {
-    const len = 2;
-    if (num2PadNumArr(1e3, len).length !== 4) throw new Error("pad without truncate");
+    if (num2PadNumArr(1e3, 1).length !== 1) throw new Error("truncate to len");
+    if (num2PadNumArr(1e3, 1)[0] !== 0) throw new Error("ones of 1000");
     if (maxLenNum(99, 1e3) !== 4) throw new Error("maxLenNum");
     if (digitOf(0) !== 1) throw new Error("digitOf zero");
+    const valueAt = (from, to, p) => Math.round(from + (to - from) * p);
+    if (digitOf(valueAt(1, 1e3, 9 / 999)) !== 2) throw new Error("expand at 10");
+    if (digitOf(valueAt(1, 1e3, 99 / 999)) !== 3) throw new Error("expand at 100");
+    if (digitOf(valueAt(1e3, 1, 1 / 999)) !== 3) throw new Error("shrink at 999");
+    if (num2DigitArr(99).join() !== "9,9") throw new Error("no leading zero");
+    if (num2DigitArr(999).join() !== "9,9,9") throw new Error("shrink digits");
+    const linear = (p) => p;
+    const fb1 = num2PadNumArr(1, 4);
+    const fa1 = num2PadNumArr(1e3, 4);
+    if (visibleDigitsAt(0, fb1, fa1, linear) !== 1) throw new Error("direct no lead 0");
+    if (visibleDigitsAt(1, fb1, fa1, linear) !== 4) throw new Error("direct end digits");
+    if (effectiveToAt(99, 1e4, 3) !== 999) throw new Error("expand effectiveTo cap");
+    const after99to100 = num2PadNumArr(effectiveToAt(99, 100, 3), 3);
+    if (after99to100[2] !== 1) throw new Error("expand hundreds to 1");
+    if (effectiveFromAt(1e4, 4) !== 9999) throw new Error("shrink effectiveFrom cap");
+    const beforeShrink = num2PadNumArr(effectiveFromAt(1e4, 4), 4);
+    if (beforeShrink.join() !== "9,9,9,9") throw new Error("shrink before not 9999");
+    const afterShrink = num2PadNumArr(effectiveToAt(1e4, 9, 4), 4);
+    if (beforeShrink.join() === afterShrink.join()) throw new Error("shrink before/after differ");
+    let temp = 0;
+    let hasAlter = false;
+    for (let d = beforeShrink.length - 1; d >= 0; d -= 1) {
+      temp += afterShrink[d] - beforeShrink[d];
+      if (temp !== 0) hasAlter = true;
+      temp *= 10;
+    }
+    if (!hasAlter) throw new Error("shrink has alter");
   }
   return __toCommonJS(number_flip_exports);
 })();

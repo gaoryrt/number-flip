@@ -179,6 +179,7 @@ Special thanks to [Browserstack](http://browserstack.com/) providing cross-brows
 
 ```bash
 npm run dev    # Vite dev server for example/
+npm run dev:test  # Vite dev server for test/ — E2E 参数测试页
 npm run build  # tsup → dist/
 ```
 

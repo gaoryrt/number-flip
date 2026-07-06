@@ -24,6 +24,7 @@
   },
   "scripts": {
     "build": "tsup && node -e \"const fs=require('fs');fs.renameSync('dist/index.global.js','dist/index.js');fs.renameSync('dist/number-flip.d.mts','dist/number-flip.d.ts')\"",
-    "dev": "vite"
+    "dev": "vite",
+    "dev:test": "vite --mode test"
   }
 }
