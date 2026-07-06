@@ -1,24 +1,29 @@
 {
   "name": "number-flip",
-  "version": "1.2.3",
+  "version": "1.3.0",
   "description": "Change number with flipping animation",
   "main": "dist/index.js",
+  "module": "dist/number-flip.mjs",
   "types": "dist/number-flip.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/number-flip.d.ts",
+      "import": "./dist/number-flip.mjs",
+      "require": "./dist/number-flip.cjs",
+      "default": "./dist/index.js"
+    }
+  },
   "repository": "https://github.com/gaoryrt/flip.git",
   "author": "gaoryrt",
   "license": "MIT",
   "devDependencies": {
-    "@poi/plugin-typescript": "^12.3.1",
-    "@types/poi": "^12.5.4",
-    "poi": "^12.0.0",
-    "ts-node": "^10.2.1",
-    "typescript": "^3.9.10"
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
   },
   "scripts": {
-    "build": "poi --prod number-flip.ts --format umd --module-name NumberFlip -r ts-node/register && tsc",
-    "dev": "poi --serve ./example/index.html -r ts-node/register"
-  },
-  "dependencies": {
-    "vue-template-compiler": "^2.7.16"
+    "build": "tsup && node -e \"const fs=require('fs');fs.renameSync('dist/index.global.js','dist/index.js');fs.renameSync('dist/number-flip.d.mts','dist/number-flip.d.ts')\"",
+    "dev": "vite"
   }
 }

@@ -1,12 +1,15 @@
 # build setup
-this demo uses [poi](https://poi.js.org/#/home) to build a HTML-JS-CSS playground:
+
+This demo uses [Vite](https://vite.dev/) for local development.
+
+From the repo root:
 
 ```bash
-npm i -g poi
+npm run dev
 ```
 
-if you already installed poi globally, run the demo:
+Or from this directory:
 
-```
-poi --serve index.html
+```bash
+npx vite
 ```

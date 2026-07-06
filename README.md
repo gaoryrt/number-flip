@@ -176,10 +176,22 @@ MIT
 Special thanks to [Browserstack](http://browserstack.com/) providing cross-browser testing.
 
 # dev and build
+
 ```bash
-yarn dev
-yarn build
+npm run dev    # Vite dev server for example/
+npm run build  # tsup → dist/
 ```
+
+## 产物格式
+
+`npm run build` 后 `dist/` 包含三种格式，通过 `package.json` 的 `exports` 自动选用：
+
+| 文件 | 格式 | 适用场景 |
+|------|------|----------|
+| `number-flip.mjs` | ESM | `import { Flip } from 'number-flip'`（Framer、Vite、Webpack 5 等） |
+| `number-flip.cjs` | CJS | `require('number-flip')` |
+| `index.js` | IIFE | `<script>` 标签，全局 `NumberFlip` |
+| `number-flip.d.ts` | 类型 | TypeScript 类型声明 |
 
 # contributing
 1. fork this repo

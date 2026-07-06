@@ -1,5 +1,6 @@
+const digitOf = (num: string | number) => Number(num).toString().length;
 const maxLenNum = (aNum: string | number, bNum: string | number) =>
-  (aNum > bNum ? aNum : bNum).toString().length;
+  Math.max(digitOf(aNum), digitOf(bNum));
 
 const num2PadNumArr = (num: { toString: () => any }, len: any) => {
   const padLeftStr = (rawStr: string, lenNum: number): string =>
@@ -40,6 +41,7 @@ export class Flip {
   private node: HTMLElement;
   private direct: boolean;
   private separator?: string | string[];
+  private separatorOriginal?: string | string[];
   private separateOnly: number;
   private separateEvery: number;
   private height?: number;
@@ -79,6 +81,9 @@ export class Flip {
     this.node = node;
     this.direct = direct;
     this.separator = separator;
+    this.separatorOriginal = Array.isArray(separator)
+      ? [...separator]
+      : separator;
     this.separateOnly = separateOnly;
     this.separateEvery = separateOnly ? 0 : separateEvery;
     this.containerClassName = containerClassName;
@@ -95,6 +100,13 @@ export class Flip {
     this.node.classList.add("number-flip");
     this.node.style.position = "relative";
     this.node.style.overflow = "hidden";
+    this._buildDigits(digits);
+    this._resize();
+    window.addEventListener("resize", this._resizeHandler);
+  }
+
+  _buildDigits(digits: number) {
+    let sprtrIdx = 0;
     for (let i = 0; i < digits; i += 1) {
       const ctnr = document.createElement("div");
       ctnr.className = `${this.containerClassName} ${this.containerClassName}${i}`;
@@ -111,24 +123,31 @@ export class Flip {
       this.node.appendChild(ctnr);
       this.beforeArr.push(0);
       if (
-        !this.separator ||
+        !this.separatorOriginal ||
         (!this.separateEvery && !this.separateOnly) ||
         i === digits - 1 ||
         ((digits - i) % this.separateEvery != 1 &&
           digits - i - this.separateOnly != 1)
       )
         continue;
-      const sprtrStr = isstr(this.separator)
-        ? this.separator
-        : (this.separator.shift() as string);
+      const sprtrStr = isstr(this.separatorOriginal)
+        ? this.separatorOriginal
+        : (this.separatorOriginal[sprtrIdx++] as string);
       const separator = document.createElement("div");
       separator.className = this.separatorClassName;
       separator.style.display = "inline-block";
       separator.innerHTML = sprtrStr;
       this.node.appendChild(separator);
     }
+  }
+
+  _rebuildDigits(digits: number) {
+    while (this.node.firstChild) this.node.removeChild(this.node.firstChild);
+    this.ctnrArr = [];
+    this.beforeArr = [];
+    this.afterArr = [];
+    this._buildDigits(digits);
     this._resize();
-    window.addEventListener("resize", this._resizeHandler);
   }
 
   _draw({ per, alter, digit }: { per: number; alter: number; digit: number }) {
@@ -182,6 +201,10 @@ export class Flip {
   }) {
     if (easeFn) this.easeFn = easeFn;
     if (direct !== undefined) this.direct = direct;
+
+    const flipDigits = maxLenNum(this.from, to);
+    this._rebuildDigits(flipDigits);
+
     this.setSelect(to);
     const len = this.ctnrArr.length;
     this.beforeArr = num2PadNumArr(this.from, len);
@@ -195,6 +218,13 @@ export class Flip {
       else {
         this.from = to;
         this.frame(1);
+        const finalDigits = digitOf(to);
+        if (finalDigits !== this.ctnrArr.length) {
+          this._rebuildDigits(finalDigits);
+          this.beforeArr = num2PadNumArr(this.from, finalDigits);
+          this.afterArr = [...this.beforeArr];
+          this.frame(1);
+        }
       }
     };
     requestAnimationFrame(tick);
@@ -213,4 +243,13 @@ export class Flip {
   destroy() {
     window.removeEventListener("resize", this._resizeHandler);
   }
+}
+
+// ponytail: 位数数组长度自检 — ts-node number-flip.ts 可跑
+const nodeProcess = (globalThis as { process?: { argv?: string[] } }).process;
+if (nodeProcess?.argv?.[1]?.endsWith("number-flip.ts")) {
+  const len = 2;
+  if (num2PadNumArr(1000, len).length !== 4) throw new Error("pad without truncate");
+  if (maxLenNum(99, 1000) !== 4) throw new Error("maxLenNum");
+  if (digitOf(0) !== 1) throw new Error("digitOf zero");
 }
